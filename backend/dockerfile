@@ -1,0 +1,21 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files first for better caching
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Copy all files except what's in .dockerignore
+COPY . .
+
+# Copy .env file separately if needed (alternative approach)
+# COPY .env .env
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "server.js"]
