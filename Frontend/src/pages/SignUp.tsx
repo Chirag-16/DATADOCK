@@ -47,7 +47,7 @@ const SignUp = () => {
       });
       // Store a dummy token to simulate auth
       localStorage.setItem("webmonitor-user", JSON.stringify({ email }));
-      navigate("/");
+      navigate("/dashboard");
       setIsLoading(false);
     }, 1500);
   };

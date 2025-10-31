@@ -40,7 +40,7 @@ const SignIn = () => {
           title: "Success",
           description: "You have successfully signed in!",
         });
-        navigate("/");  // Navigate to dashboard (Index page)
+        navigate("/dashboard");  // Navigate to dashboard (Index page)
       } else {
         toast({
           title: "Error",

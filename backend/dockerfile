@@ -2,20 +2,23 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY package.json package-lock.json ./
+# Install dependencies including TypeScript
+COPY package.json package-lock.json* ./
+RUN npm install && npm install -g typescript
 
-# Install dependencies
-RUN npm install --production
+# Copy Prisma files
+COPY prisma ./prisma/
 
-# Copy all files except what's in .dockerignore
+# Generate Prisma client
+RUN npx prisma generate
+
+# Copy all other files
 COPY . .
 
-# Copy .env file separately if needed (alternative approach)
-# COPY .env .env
+# Build TypeScript
+# RUN npm run build
 
-# Expose the port the app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["node", "server.js"]
+# Directly run migrations and start (no external script)
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
